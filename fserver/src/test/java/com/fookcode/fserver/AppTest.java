@@ -1,4 +1,4 @@
-package com.fookcode.FServer;
+package com.fookcode.fserver;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
