@@ -15,6 +15,6 @@
   </properties>
 
   <modules>
-  	<module>server</module>
+  	<module>fserver</module>
   </modules>
 </project>
