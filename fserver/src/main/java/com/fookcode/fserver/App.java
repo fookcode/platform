@@ -1,5 +1,7 @@
 package com.fookcode.fserver;
 
+import org.apache.thrift.transport.TServerSocket;
+
 import com.fookcode.fserver.config.ServerConfig;
 
 /**
@@ -11,6 +13,13 @@ public class App
     public static void main( String[] args )
     {
         String protocol = ServerConfig.getServerProtocol();
+        try {
+        	TServerSocket server = new TServerSocket(1234);
+        	System.out.println(server.getClass().getSimpleName());
+        }
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
         System.out.println( protocol );
     }
 }

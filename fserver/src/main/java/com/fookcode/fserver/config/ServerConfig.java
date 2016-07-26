@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 public class ServerConfig {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ServerConfig.class.getName());
+	//private static final Logger logger = LoggerFactory.getLogger(ServerConfig.class.getName());
 
-	private static final String PROPERTIES_FILE = System.getProperty("java.class.path") + "//fserver.properties";
+	private static final String PROPERTIES_FILE = "fserver.properties";
 	private static final String PROPERTIES_PROTOCOL = "protocol";
 	private static final String PROPERTIES_RECV_PORT = "recv_port";
 	private static final String PROPERTIES_SEND_PORT = "send_port";
@@ -21,19 +21,16 @@ public class ServerConfig {
 	private static final Properties properties = new Properties();
 	
 	static {
-		try {
-			logger.info("读取服务器配置参数");
-			InputStream inStream = new FileInputStream(PROPERTIES_FILE);
 
-			try {
-				properties.load(inStream);
-			}
-			catch(IOException e) {
-				 e.printStackTrace();
-			}
+		System.out.println(System.getProperty("user.dir"));
+		//logger.info("读取服务器配置参数");
+		InputStream inStream = ServerConfig.class.getResourceAsStream(PROPERTIES_FILE);
+
+		try {
+			properties.load(inStream);
 		}
-		catch(FileNotFoundException e) {
-			e.printStackTrace();
+		catch(IOException e) {
+			 e.printStackTrace();
 		}
 	}
 	
