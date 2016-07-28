@@ -12,6 +12,7 @@
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.install.directory>${project.parent.build.directory}</project.install.directory>
   </properties>
   
 </project>

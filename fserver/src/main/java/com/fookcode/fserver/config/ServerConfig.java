@@ -20,6 +20,8 @@ public class ServerConfig {
 	
 	private static final Properties properties = new Properties();
 	
+	public static ServerParams serverParams = new ServerConfig.ServerParams();
+	
 	static {
 
 		System.out.println(System.getProperty("user.dir"));
@@ -28,26 +30,23 @@ public class ServerConfig {
 
 		try {
 			properties.load(inStream);
+			serverParams.protocol = ServerConfig.properties.getProperty(PROPERTIES_PROTOCOL);
+			serverParams.recv_port = Integer.parseInt(ServerConfig.properties.getProperty(PROPERTIES_RECV_PORT));
+			serverParams.send_port = Integer.parseInt(ServerConfig.properties.getProperty(PROPERTIES_SEND_PORT));
 		}
 		catch(IOException e) {
 			 e.printStackTrace();
 		}
 	}
 	
-	public static String getServerProtocol() {
-		return ServerConfig.properties.getProperty(PROPERTIES_PROTOCOL);
+	public static ServerConfig.ServerParams getServerParams() {
+		return serverParams;
 	}
 
-	public static int getServerRecvPort() {
-		String recv_port = ServerConfig.properties.getProperty(PROPERTIES_RECV_PORT);
-		int port_num = Integer.parseInt(recv_port);
-		return port_num;
-	}
-	
-	public static int getServerSendPort() {
-		String recv_port = ServerConfig.properties.getProperty(PROPERTIES_SEND_PORT);
-		int port_num = Integer.parseInt(recv_port);
-		return port_num;
+	public static class ServerParams {
+		public String protocol;
+		public int recv_port;
+		public int send_port;
 	}
 	
 }

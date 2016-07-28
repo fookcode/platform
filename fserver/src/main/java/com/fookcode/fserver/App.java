@@ -12,7 +12,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        String protocol = ServerConfig.getServerProtocol();
+        String protocol = ServerConfig.getServerParams().protocol;
         try {
         	TServerSocket server = new TServerSocket(1234);
         	System.out.println(server.getClass().getSimpleName());
