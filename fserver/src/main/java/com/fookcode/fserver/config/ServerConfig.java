@@ -1,7 +1,5 @@
 package com.fookcode.fserver.config;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -11,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public class ServerConfig {
 	
-	//private static final Logger logger = LoggerFactory.getLogger(ServerConfig.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(ServerConfig.class.getName());
 
 	private static final String PROPERTIES_FILE = "fserver.properties";
 	private static final String PROPERTIES_PROTOCOL = "protocol";
@@ -24,8 +22,7 @@ public class ServerConfig {
 	
 	static {
 
-		System.out.println(System.getProperty("user.dir"));
-		//logger.info("读取服务器配置参数");
+		logger.info("读取服务器fserver.properties配置参数");
 		InputStream inStream = ServerConfig.class.getResourceAsStream(PROPERTIES_FILE);
 
 		try {
