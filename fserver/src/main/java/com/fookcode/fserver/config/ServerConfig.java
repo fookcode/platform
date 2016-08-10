@@ -22,6 +22,8 @@ public class ServerConfig {
 	private static final String PROPERTIES_PROTOCOL = "protocol";
 	private static final String PROPERTIES_PUSH_PORT = "push_port";
 	private static final String PROPERTIES_SEND_PORT = "send_port";
+	private static final String PROPERTIES_MINWORKERTHREADS = "minWorkerThreads";
+	private static final String PROPERTIES_MAXWORKERTHREADS = "maxWorkerThreads";
 	
 	private static final String STR_PROTOCOL_JSON = "json";
 	private static final String STR_PROTOCOL_BIN = "binary";
@@ -41,6 +43,8 @@ public class ServerConfig {
 			serverParams.protocol = getProtocolType(pp);
 			serverParams.push_port = Integer.parseInt(ServerConfig.properties.getProperty(PROPERTIES_PUSH_PORT));
 			serverParams.send_port = Integer.parseInt(ServerConfig.properties.getProperty(PROPERTIES_SEND_PORT));
+			serverParams.minWorkerThreads = Integer.parseInt(ServerConfig.properties.getProperty(PROPERTIES_MINWORKERTHREADS));
+			serverParams.maxWorkerThreads = Integer.parseInt(ServerConfig.properties.getProperty(PROPERTIES_MAXWORKERTHREADS));
 		}
 		catch(IOException e) {
 			 e.printStackTrace();
@@ -61,14 +65,29 @@ public class ServerConfig {
 		return result;
 	}
 	
+	public static String getProtocol(int type) {
+		String result = "";
+		switch(type) {
+			case ServerConfig.PROTOCOL_BINARY:
+				result = ServerConfig.STR_PROTOCOL_BIN;
+				break;
+			case ServerConfig.PROTOCOL_JSON:
+				result = ServerConfig.STR_PROTOCOL_JSON;
+				break;
+		}
+		return result;
+	}
+
 	public static ServerConfig.ServerParams getServerParams() {
 		return serverParams;
 	}
-
+	
 	public static class ServerParams {
 		public int protocol = DEFAULT_PROTOCOL;
 		public int push_port = DEFAULT_PUSH_PORT;
 		public int send_port = DEFAULT_SEND_PORT;
+		public int minWorkerThreads = 1000;
+		public int maxWorkerThreads = 65535;
 	}
 	
 }
