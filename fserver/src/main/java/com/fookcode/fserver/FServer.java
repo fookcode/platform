@@ -1,6 +1,9 @@
 package com.fookcode.fserver;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -33,14 +36,14 @@ public final class FServer implements IFServer {
 				
 				TProtocolFactory protocolFactory = null;
 				switch (protocol) {
-					case ServerConfig.PROTOCOL_BINARY: {
+					case ServerConfig.PROTOCOL_BINARY: 
 						protocolFactory = new TBinaryProtocol.Factory(true, true);
 						break;
-					}
-					case ServerConfig.PROTOCOL_JSON: {
+					
+					case ServerConfig.PROTOCOL_JSON:
 						protocolFactory = new TJSONProtocol.Factory();
 						break;
-					}
+					
 				}		         
 		        
 		        Args args = new Args(serverTransport);            //连接参数
@@ -110,7 +113,7 @@ public final class FServer implements IFServer {
 				try {
 					Constructor<?> constuctorProcessor = classProcessor.getConstructor(new Class<?>[] {interfaceIface});
 					try {
-						result = (TProcessor)constuctorProcessor.newInstance(new Object[] {service});
+						result = (TProcessor)constuctorProcessor.newInstance(new Object[] {wrapServiceLog(service)});
 					}
 					catch(Exception e) {
 						e.printStackTrace();
@@ -129,5 +132,26 @@ public final class FServer implements IFServer {
 		
 		return result;
 	}
+	
+	private Object wrapServiceLog(Object service) {
+		return Proxy.newProxyInstance(service.getClass().getClassLoader(), service.getClass().getInterfaces(), new ProxyHandler(service));
+	}
 
+	private class ProxyHandler implements InvocationHandler {
+
+		private Object service;
+		
+		public ProxyHandler(Object service) {
+			this.service = service;
+		}
+		
+		@Override
+		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+			// TODO Auto-generated method stub
+			logger.info("服务调用：" + method.getName());
+			return method.invoke(service, args);
+		}
+		
+	}
+	
 }
